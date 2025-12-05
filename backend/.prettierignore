@@ -1,0 +1,10 @@
+# dependencies
+node_modules/
+pnpm-lock.yaml
+
+# build outputs
+dist/
+lambda.zip
+
+# ide
+.vscode/
