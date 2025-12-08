@@ -1,10 +1,9 @@
-import { Hono } from 'hono'
-import { handle } from 'hono/aws-lambda'
+import { Hono } from "hono";
 
-const app = new Hono()
+const app = new Hono();
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+app.get("/", (c) => {
+  return c.text("Hello Hono!");
+});
 
-export const handler = handle(app)
+export default app;

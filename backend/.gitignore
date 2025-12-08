@@ -1,6 +1,5 @@
 # prod
 dist/
-lambda.zip
 
 # dev
 .yarn/
@@ -14,10 +13,12 @@ lambda.zip
 
 # deps
 node_modules/
+.wrangler
 
 # env
 .env
 .env.production
+.dev.vars
 
 # logs
 logs/
