@@ -1,8 +1,8 @@
-import { Hono } from 'hono';
-import { eq } from 'drizzle-orm';
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
-import { battleLogs, enemies, users } from './db/schema';
+import { Hono } from "hono";
+import { eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+import { battleLogs, enemies, users } from "./db/schema";
 
 type CloudflareBindings = {
   DATABASE_URL: string;
@@ -13,7 +13,7 @@ const connections = new Map<string, ReturnType<typeof drizzle>>();
 const getDb = (env: CloudflareBindings) => {
   const url = env.DATABASE_URL;
   if (!url) {
-    throw new Error('DATABASE_URL is not set');
+    throw new Error("DATABASE_URL is not set");
   }
 
   const cached = connections.get(url);
@@ -29,20 +29,20 @@ const getDb = (env: CloudflareBindings) => {
 
 const app = new Hono<{ Bindings: CloudflareBindings }>();
 
-app.get('/health', (c) => c.json({ ok: true }));
+app.get("/health", (c) => c.json({ ok: true }));
 
-app.get('/users', async (c) => {
+app.get("/users", async (c) => {
   const db = getDb(c.env);
   const data = await db.select().from(users);
   return c.json(data);
 });
 
-app.post('/users', async (c) => {
+app.post("/users", async (c) => {
   const db = getDb(c.env);
   const body = await c.req.json<Partial<typeof users.$inferInsert>>();
 
   if (!body.displayName) {
-    return c.json({ message: 'displayName is required' }, 400);
+    return c.json({ message: "displayName is required" }, 400);
   }
 
   const payload: typeof users.$inferInsert = {
@@ -55,9 +55,9 @@ app.post('/users', async (c) => {
   return c.json(created, 201);
 });
 
-app.get('/enemies', async (c) => {
+app.get("/enemies", async (c) => {
   const db = getDb(c.env);
-  const includeInactive = c.req.query('includeInactive') === 'true';
+  const includeInactive = c.req.query("includeInactive") === "true";
 
   const data = includeInactive
     ? await db.select().from(enemies)
@@ -66,9 +66,9 @@ app.get('/enemies', async (c) => {
   return c.json(data);
 });
 
-app.get('/battle-logs', async (c) => {
+app.get("/battle-logs", async (c) => {
   const db = getDb(c.env);
-  const userId = c.req.query('userId');
+  const userId = c.req.query("userId");
 
   const data = userId
     ? await db.select().from(battleLogs).where(eq(battleLogs.userId, userId))
@@ -77,7 +77,7 @@ app.get('/battle-logs', async (c) => {
   return c.json(data);
 });
 
-app.post('/battle-logs', async (c) => {
+app.post("/battle-logs", async (c) => {
   const db = getDb(c.env);
   const body = await c.req.json<Partial<typeof battleLogs.$inferInsert>>();
   const { userId, enemyId, damageDealt, duration, replayData } = body;
@@ -85,12 +85,15 @@ app.post('/battle-logs', async (c) => {
   if (
     !userId ||
     !enemyId ||
-    typeof damageDealt !== 'number' ||
-    typeof duration !== 'number' ||
+    typeof damageDealt !== "number" ||
+    typeof duration !== "number" ||
     !replayData
   ) {
     return c.json(
-      { message: 'userId, enemyId, damageDealt, duration, and replayData are required' },
+      {
+        message:
+          "userId, enemyId, damageDealt, duration, and replayData are required",
+      },
       400,
     );
   }
