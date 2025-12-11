@@ -1,33 +1,31 @@
 export type User = {
-  id: string;
-  displayName: string;
-  level: number;
-  totalXp: number;
-  createdAt: string;
-};
+  id: string
+  displayName: string
+  level: number
+  totalXp: number
+  createdAt: string
+}
 
 export type CreateUserRequest = {
-  displayName: string;
-  level?: number;
-  totalXp?: number;
-};
+  displayName: string
+  level?: number
+  totalXp?: number
+}
 
 export const getUser = async (): Promise<User[]> => {
-  const url = '/users';
+  const url = '/users'
   try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
+    const response = await fetch(url)
+    const data = await response.json()
+    return data
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error(error)
+    throw error
   }
-};
+}
 
-export const createUser = async (
-  user: CreateUserRequest,
-): Promise<User> => {
-  const url = '/users';
+export const createUser = async (user: CreateUserRequest): Promise<User> => {
+  const url = '/users'
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -37,107 +35,107 @@ export const createUser = async (
       },
       credentials: 'include',
       mode: 'cors',
-    });
+    })
 
-    const data = await response.json();
-    return data;
+    const data = await response.json()
+    return data
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error(error)
+    throw error
   }
-};
+}
 
 // Enemy types
 export type Enemy = {
-  id: string;
-  name: string;
-  hp: number;
-  assetUrl: string | null;
-  attackPattern: Record<string, unknown>;
-  isActive: boolean;
-};
+  id: string
+  name: string
+  hp: number
+  assetUrl: string | null
+  attackPattern: Record<string, unknown>
+  isActive: boolean
+}
 
 export type GetEnemiesOptions = {
-  includeInactive?: boolean;
-};
+  includeInactive?: boolean
+}
 
 // BattleLog types
 export type ReplayData = Array<{
-  t: number; // time
-  d: number; // damage
-  c: boolean; // critical
-}>;
+  t: number // time
+  d: number // damage
+  c: boolean // critical
+}>
 
 export type BattleLog = {
-  id: string;
-  userId: string;
-  enemyId: string;
-  damageDealt: number;
-  duration: number; // seconds
-  replayData: ReplayData;
-  createdAt: string;
-};
+  id: string
+  userId: string
+  enemyId: string
+  damageDealt: number
+  duration: number // seconds
+  replayData: ReplayData
+  createdAt: string
+}
 
 export type CreateBattleLogRequest = {
-  userId: string;
-  enemyId: string;
-  damageDealt: number;
-  duration: number; // seconds
-  replayData: ReplayData;
-};
+  userId: string
+  enemyId: string
+  damageDealt: number
+  duration: number // seconds
+  replayData: ReplayData
+}
 
 export type GetBattleLogsOptions = {
-  userId?: string;
-};
+  userId?: string
+}
 
 // 敵の API
 export const getEnemies = async (
-  options?: GetEnemiesOptions,
+  options?: GetEnemiesOptions
 ): Promise<Enemy[]> => {
-  const params = new URLSearchParams();
+  const params = new URLSearchParams()
   if (options?.includeInactive) {
-    params.append('includeInactive', 'true');
+    params.append('includeInactive', 'true')
   }
-  const url = `/enemies${params.toString() ? `?${params.toString()}` : ''}`;
+  const url = `/enemies${params.toString() ? `?${params.toString()}` : ''}`
   try {
-    const response = await fetch(url);
+    const response = await fetch(url)
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`)
     }
-    const data = await response.json();
-    return data;
+    const data = await response.json()
+    return data
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error(error)
+    throw error
   }
-};
+}
 
 // バトルログの API
 export const getBattleLogs = async (
-  options?: GetBattleLogsOptions,
+  options?: GetBattleLogsOptions
 ): Promise<BattleLog[]> => {
-  const params = new URLSearchParams();
+  const params = new URLSearchParams()
   if (options?.userId) {
-    params.append('userId', options.userId);
+    params.append('userId', options.userId)
   }
-  const url = `/battle-logs${params.toString() ? `?${params.toString()}` : ''}`;
+  const url = `/battle-logs${params.toString() ? `?${params.toString()}` : ''}`
   try {
-    const response = await fetch(url);
+    const response = await fetch(url)
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`)
     }
-    const data = await response.json();
-    return data;
+    const data = await response.json()
+    return data
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error(error)
+    throw error
   }
-};
+}
 
 export const createBattleLog = async (
-  battleLog: CreateBattleLogRequest,
+  battleLog: CreateBattleLogRequest
 ): Promise<BattleLog> => {
-  const url = '/battle-logs';
+  const url = '/battle-logs'
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -147,17 +145,15 @@ export const createBattleLog = async (
       },
       credentials: 'include',
       mode: 'cors',
-    });
+    })
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || `HTTP error! status: ${response.status}`);
+      const error = await response.json()
+      throw new Error(error.message || `HTTP error! status: ${response.status}`)
     }
-    const data = await response.json();
-    return data;
+    const data = await response.json()
+    return data
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error(error)
+    throw error
   }
-};
-
-
+}

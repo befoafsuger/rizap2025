@@ -24,18 +24,12 @@ export default function HomeScreen() {
 
       {/* ゲームモード選択ボタン */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.modeButton}
-          activeOpacity={0.7}
-        >
+        <TouchableOpacity style={styles.modeButton} activeOpacity={0.7}>
           <MaterialIcons name="bolt" size={32} color="#000" />
           <Text style={styles.buttonText}>対戦モード</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.modeButton}
-          activeOpacity={0.7}
-        >
+        <TouchableOpacity style={styles.modeButton} activeOpacity={0.7}>
           <MaterialIcons name="fitness-center" size={32} color="#000" />
           <Text style={styles.buttonText}>ソロモード</Text>
         </TouchableOpacity>
@@ -43,10 +37,10 @@ export default function HomeScreen() {
 
       {/* プレースホルダーボタン */}
       <View style={styles.placeholderContainer}>
-        <View style={styles.placeholderButton} >
+        <View style={styles.placeholderButton}>
           <Text style={styles.placeholderButtonText}>Lv{level}</Text>
         </View>
-        <View style={styles.placeholderButton} >
+        <View style={styles.placeholderButton}>
           <Text style={styles.placeholderButtonText}>Lv{level}</Text>
         </View>
         <View style={styles.placeholderButton}>
@@ -149,5 +143,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: '100%',
   },
-
 })
