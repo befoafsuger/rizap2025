@@ -1,6 +1,5 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-
 import type { CloudflareBindings } from "../types";
 
 const connections = new Map<string, ReturnType<typeof drizzle>>();

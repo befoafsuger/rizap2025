@@ -4,15 +4,20 @@ import { zValidator } from "@hono/zod-validator";
 import { getDb } from "../db/client";
 import { battleLogs, users } from "../db/schema";
 import { eq, sql } from "drizzle-orm";
+import type { CloudflareBindings } from "../types";
 
-const app = new Hono();
+const app = new Hono<{ Bindings: CloudflareBindings }>();
 // 実際のURL: GET /api/battle/ghost
-app.get("/ghost", async (c) => {
-  const db = getDb(c.env as any);
-  // 簡易的にランダム取得
-  const ghosts = await db.select().from(battleLogs).limit(1);
-  return c.json(ghosts[0] || { message: "No ghost found" });
-});
+app.get(
+  "/ghost",
+  zValidator("query", z.object({}).passthrough()),
+  async (c) => {
+    const db = getDb(c.env);
+    // 簡易的にランダム取得
+    const ghosts = await db.select().from(battleLogs).limit(1);
+    return c.json(ghosts[0] || { message: "No ghost found" });
+  },
+);
 
 // バトル結果保存
 // 実際のURL: POST /api/battle/result
@@ -21,14 +26,14 @@ app.post(
   zValidator(
     "json",
     z.object({
-      userId: z.string(),
-      enemyId: z.string(),
+      userId: z.string().uuid(),
+      enemyId: z.string().min(1),
       totalDamage: z.number(),
       result: z.enum(["WIN", "LOSE"]),
     }),
   ),
   async (c) => {
-    const db = getDb(c.env as any);
+    const db = getDb(c.env);
     const data = c.req.valid("json");
 
     // 1. ログ保存
