@@ -25,7 +25,6 @@ export default function HomeScreen() {
     fetchUserData()
   }, [router])
 
-
   useEffect(() => {
     const fetchUserXp = async () => {
       try {
@@ -72,7 +71,8 @@ export default function HomeScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.modeButton} activeOpacity={0.7}
+          style={styles.modeButton}
+          activeOpacity={0.7}
           onPress={() => router.push('/solo')}
         >
           <MaterialIcons name="fitness-center" size={32} color="#000" />
@@ -89,7 +89,7 @@ export default function HomeScreen() {
           <Text style={styles.placeholderButtonText}>XP{userTotalXp}</Text>
         </View>
       </View>
-    </View >
+    </View>
   )
 }
 

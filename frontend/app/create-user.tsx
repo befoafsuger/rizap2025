@@ -18,7 +18,7 @@ export default function CreateUserScreen() {
     try {
       await createUser({ displayName: displayName.trim() })
       Alert.alert('成功', 'ユーザーが作成されました', [
-        { text: 'OK', onPress: () => router.replace('/') }
+        { text: 'OK', onPress: () => router.replace('/') },
       ])
     } catch (error) {
       console.error('Failed to create user:', error)

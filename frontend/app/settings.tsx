@@ -2,7 +2,6 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import { useRouter } from 'expo-router'
 import { Text } from '@/components/themed'
 
-
 export default function SettingScreen() {
   const router = useRouter()
 

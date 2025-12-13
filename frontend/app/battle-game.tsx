@@ -101,7 +101,12 @@ export default function BattleGameScreen() {
           HP {enemyHp}/{enemyMaxHp}
         </Text>
         <View style={styles.hpBarContainer}>
-          <View style={[styles.hpFill, { width: `${(enemyHp / enemyMaxHp) * 100}%` }]} />
+          <View
+            style={[
+              styles.hpFill,
+              { width: `${(enemyHp / enemyMaxHp) * 100}%` },
+            ]}
+          />
         </View>
       </View>
 
@@ -121,24 +126,33 @@ export default function BattleGameScreen() {
           HP {userHp}/{userMaxHp}
         </Text>
         <View style={styles.hpBarContainer}>
-          <View style={[styles.hpFill, { width: `${(userHp / userMaxHp) * 100}%` }]} />
+          <View
+            style={[styles.hpFill, { width: `${(userHp / userMaxHp) * 100}%` }]}
+          />
         </View>
       </View>
 
       {/* コマンドエリア */}
       {!isGameOver ? (
         <View style={styles.commandBox}>
-          <TouchableOpacity style={styles.commandButton} onPress={playerAttack} activeOpacity={0.7}>
+          <TouchableOpacity
+            style={styles.commandButton}
+            onPress={playerAttack}
+            activeOpacity={0.7}
+          >
             <Text style={styles.commandText}>こうげき</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.commandButton} activeOpacity={0.7}
+          <TouchableOpacity
+            style={styles.commandButton}
+            activeOpacity={0.7}
             onPress={() => {
               alert('にげた！ 戦闘から逃げ出した。')
-              router.back();
-            }}>
-            < Text style={styles.commandText} > にげる</Text>
+              router.back()
+            }}
+          >
+            <Text style={styles.commandText}> にげる</Text>
           </TouchableOpacity>
-        </View >
+        </View>
       ) : (
         <View style={styles.resultBox}>
           <Text style={styles.resultText}>
@@ -148,9 +162,8 @@ export default function BattleGameScreen() {
             <Text style={styles.resultButtonText}>つづける</Text>
           </TouchableOpacity>
         </View>
-      )
-      }
-    </View >
+      )}
+    </View>
   )
 }
 

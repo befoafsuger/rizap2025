@@ -16,8 +16,7 @@ export default function BattleScreen() {
       try {
         const list = await getEnemies()
         setEnemies(list)
-      }
-      finally {
+      } finally {
         setLoading(false)
       }
     }
@@ -29,7 +28,10 @@ export default function BattleScreen() {
       name={item.name}
       hp={item.hp}
       onPress={() =>
-        router.push({ pathname: '/battle-game', params: { enemyId: item.id, enemyName: item.name } })
+        router.push({
+          pathname: '/battle-game',
+          params: { enemyId: item.id, enemyName: item.name },
+        })
       }
     />
   )

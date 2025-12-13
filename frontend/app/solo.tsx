@@ -39,6 +39,5 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
   },
-  buttonText: {
-  },
+  buttonText: {},
 })

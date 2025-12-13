@@ -12,23 +12,25 @@ export default function BattleResultScreen() {
       <Text style={styles.title}>FIT QUEST</Text>
 
       <View style={styles.resultBox}>
-        <Text style={styles.resultText}>{isWon ? '勝利！' : 'ゲームオーバー'}</Text>
-        {isWon && (
-          <Text style={styles.rewardText}>つぎの戦いへ進もう！</Text>
-        )}
+        <Text style={styles.resultText}>
+          {isWon ? '勝利！' : 'ゲームオーバー'}
+        </Text>
+        {isWon && <Text style={styles.rewardText}>つぎの戦いへ進もう！</Text>}
       </View>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => router.push('/')}
-        activeOpacity={0.7}>
+        activeOpacity={0.7}
+      >
         <Text style={styles.buttonText}>ホームへ戻る</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.button, styles.buttonSecondary]}
         onPress={() => router.push('/battle')}
-        activeOpacity={0.7}>
+        activeOpacity={0.7}
+      >
         <Text style={styles.buttonText}>別の敵に挑む</Text>
       </TouchableOpacity>
     </View>
