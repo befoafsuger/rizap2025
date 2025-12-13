@@ -1,6 +1,6 @@
 import { createUserResponse } from '@/entities/users/users'
 import useSWRMutation from 'swr/mutation'
-import { client } from '@/hono/client.mts'
+import { client } from '@/hono/client.ts'
 
 interface CreateUserArgs {
   userId: string

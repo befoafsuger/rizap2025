@@ -5,20 +5,57 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native'
+import { useRouter } from 'expo-router'
 import { useState } from 'react'
+import { supabase } from '@/services/database/supabase'
 
-interface LoginScreenProps {
-  onLogin: () => void
+export default function LoginRoute() {
+  const router = useRouter()
+
+  return <LoginScreen onSuccess={() => router.replace('/')} />
 }
 
-export function LoginScreen({ onLogin }: LoginScreenProps) {
+interface LoginScreenProps {
+  onSuccess?: () => void
+}
+
+export function LoginScreen({ onSuccess }: LoginScreenProps) {
+  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [mode, setMode] = useState<'login' | 'signup'>('login')
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-  const handleLogin = () => {
-    // 簡単なバリデーション
-    if (email.trim() && password.trim()) {
-      onLogin()
+  const handleSubmit = async () => {
+    setErrorMessage(null)
+    if (!email.trim() || !password.trim()) return
+
+    setIsSubmitting(true)
+    try {
+      if (mode === 'login') {
+        const { error } = await supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password,
+        })
+        if (error) {
+          setErrorMessage(error.message)
+          return
+        }
+      } else {
+        const { error } = await supabase.auth.signUp({
+          email: email.trim(),
+          password,
+        })
+        if (error) {
+          setErrorMessage(error.message)
+          return
+        }
+      }
+
+      onSuccess?.()
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -58,11 +95,33 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
             styles.loginButton,
             (!email.trim() || !password.trim()) && styles.loginButtonDisabled,
           ]}
-          onPress={handleLogin}
-          disabled={!email.trim() || !password.trim()}
+          onPress={handleSubmit}
+          disabled={!email.trim() || !password.trim() || isSubmitting}
           activeOpacity={0.7}
         >
-          <Text style={styles.loginButtonText}>ログイン</Text>
+          <Text style={styles.loginButtonText}>
+            {mode === 'login' ? 'ログイン' : '登録'}
+          </Text>
+        </TouchableOpacity>
+
+        {errorMessage ? (
+          <Text style={styles.errorText}>{errorMessage}</Text>
+        ) : null}
+
+        <TouchableOpacity
+          onPress={() => {
+            if (mode === 'login') {
+              router.push('/register')
+            } else {
+              setMode('login')
+            }
+          }}
+          activeOpacity={0.7}
+          style={styles.switchModeButton}
+        >
+          <Text style={styles.switchModeText}>
+            {mode === 'login' ? 'アカウントを作成する' : 'ログインに戻る'}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -134,5 +193,22 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#000',
     letterSpacing: 1,
+  },
+  errorText: {
+    marginTop: 8,
+    fontFamily: 'DotGothic16-Regular',
+    fontSize: 14,
+    color: '#ff6b6b',
+    textAlign: 'center',
+  },
+  switchModeButton: {
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  switchModeText: {
+    fontFamily: 'DotGothic16-Regular',
+    fontSize: 16,
+    color: '#FFF',
+    textDecorationLine: 'underline',
   },
 })

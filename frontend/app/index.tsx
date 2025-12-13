@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'expo-router'
 import { getCurrentUser } from '@/utils/api'
 import { Text } from '@/components/themed'
-export default function HomeScreen() {
+
+function HomeScreen() {
   const [level, setLevel] = useState(1)
   const [userTotalXp, setUserTotalXp] = useState(0)
   const router = useRouter()
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -91,6 +93,12 @@ export default function HomeScreen() {
       </View>
     </View>
   )
+}
+
+export default function IndexScreen() {
+  // AuthProviderで認証チェックとリダイレクトを処理するため、
+  // ここでは単純にHomeScreenを表示するだけ
+  return <HomeScreen />
 }
 
 const styles = StyleSheet.create({

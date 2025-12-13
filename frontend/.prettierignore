@@ -3,8 +3,8 @@ node_modules/
 pnpm-lock.yaml
 
 # build outputs
-dist/
-
+dist/cd
+ios/
 # expo
 .expo/
 .expo-shared/
