@@ -1,17 +1,53 @@
-import { StyleSheet, TouchableOpacity, View, Image, Text } from 'react-native'
+import { StyleSheet, TouchableOpacity, View, Image } from 'react-native'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
-import { useState } from 'react'
-import { LoginScreen } from '@/components/login-screen'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'expo-router'
+import { getCurrentUser } from '@/utils/api'
+import { Text } from '@/components/themed'
+export default function HomeScreen() {
+  const [level, setLevel] = useState(1)
+  const [userTotalXp, setUserTotalXp] = useState(0)
+  const router = useRouter()
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const user = await getCurrentUser()
+        if (user) {
+          setLevel(user.level)
+        } else {
+          // ユーザーが存在しない場合、作成画面に遷移させる
+          router.replace('/create-user')
+        }
+      } catch (error) {
+        console.error('Failed to fetch user data:', error)
+      }
+    }
+    fetchUserData()
+  }, [router])
 
-function HomeScreen() {
-  const [level] = useState(1)
+  useEffect(() => {
+    const fetchUserXp = async () => {
+      try {
+        const user = await getCurrentUser()
+        if (user) {
+          setUserTotalXp(user.totalXp)
+        }
+      } catch (error) {
+        console.error('Failed to fetch user XP:', error)
+      }
+    }
+    fetchUserXp()
+  }, [router])
 
   return (
     <View style={styles.container}>
       {/* タイトル */}
       <Text style={styles.title}>FIT QUEST</Text>
       {/*設定ボタン*/}
-      <TouchableOpacity style={styles.settingsButton}>
+      <TouchableOpacity
+        style={styles.settingsButton}
+        onPress={() => router.push('/settings')}
+      >
         <MaterialIcons name="settings" size={32} color="#fff" />
       </TouchableOpacity>
 
@@ -25,12 +61,20 @@ function HomeScreen() {
 
       {/* ゲームモード選択ボタン */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.modeButton} activeOpacity={0.7}>
+        <TouchableOpacity
+          style={styles.modeButton}
+          activeOpacity={0.7}
+          onPress={() => router.push('/battle')}
+        >
           <MaterialIcons name="bolt" size={32} color="#000" />
           <Text style={styles.buttonText}>対戦モード</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.modeButton} activeOpacity={0.7}>
+        <TouchableOpacity
+          style={styles.modeButton}
+          activeOpacity={0.7}
+          onPress={() => router.push('/solo')}
+        >
           <MaterialIcons name="fitness-center" size={32} color="#000" />
           <Text style={styles.buttonText}>ソロモード</Text>
         </TouchableOpacity>
@@ -42,28 +86,11 @@ function HomeScreen() {
           <Text style={styles.placeholderButtonText}>Lv{level}</Text>
         </View>
         <View style={styles.placeholderButton}>
-          <Text style={styles.placeholderButtonText}>Lv{level}</Text>
-        </View>
-        <View style={styles.placeholderButton}>
-          <Text style={styles.placeholderButtonText}>Lv{level}</Text>
+          <Text style={styles.placeholderButtonText}>XP{userTotalXp}</Text>
         </View>
       </View>
     </View>
   )
-}
-
-export default function IndexScreen() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  const handleLogin = () => {
-    setIsLoggedIn(true)
-  }
-
-  if (!isLoggedIn) {
-    return <LoginScreen onLogin={handleLogin} />
-  }
-
-  return <HomeScreen />
 }
 
 const styles = StyleSheet.create({
@@ -72,11 +99,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingTop: 60,
+    paddingTop: 80,
     paddingHorizontal: 20,
   },
   title: {
-    fontFamily: 'DotGothic16-Regular',
     fontSize: 36,
     color: '#FFF',
     marginBottom: 30,
@@ -117,7 +143,6 @@ const styles = StyleSheet.create({
     gap: 15,
   },
   buttonText: {
-    fontFamily: 'DotGothic16-Regular',
     fontSize: 20,
     color: '#000',
   },
@@ -137,7 +162,7 @@ const styles = StyleSheet.create({
   },
   settingsButton: {
     position: 'absolute',
-    top: 20,
+    top: 40,
     right: 20,
     width: 40,
     height: 40,
@@ -149,7 +174,6 @@ const styles = StyleSheet.create({
     zIndex: 1000,
   },
   placeholderButtonText: {
-    fontFamily: 'DotGothic16-Regular',
     fontSize: 20,
     lineHeight: 50,
     color: '#000',

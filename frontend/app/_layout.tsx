@@ -17,7 +17,7 @@ SplashScreen.preventAutoHideAsync()
 export default function RootLayout() {
   const colorScheme = useColorScheme()
   const [fontsLoaded, fontError] = useFonts({
-    'DotGothic16-Regular': require('@/assets/fonts/DotGothic16-Regular.ttf'),
+    'DotGothic16-Regular': require('../assets/fonts/DotGothic16-Regular.ttf'),
   })
 
   useEffect(() => {
@@ -29,8 +29,11 @@ export default function RootLayout() {
   if (!fontsLoaded && !fontError) {
     return null
   }
+
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Stack screenOptions={{ headerShown: false }}></Stack>
+      <StatusBar style="auto" />
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen
