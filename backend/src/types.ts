@@ -1,3 +1,3 @@
 export type CloudflareBindings = {
-  DATABASE_URL: string
-}
+  DATABASE_URL: string;
+};
