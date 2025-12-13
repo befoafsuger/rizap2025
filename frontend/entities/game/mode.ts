@@ -9,4 +9,5 @@ export enum Mode {
   SITUP = 'situp',
   BURPEE = 'burpee',
   STANDING = 'standing',
+  AUTO = 'auto',
 }
