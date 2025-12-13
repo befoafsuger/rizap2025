@@ -173,7 +173,6 @@ async def api_score(
     model_complexity: int = Form(0),
     min_det_conf: float = Form(0.5),
     min_track_conf: float = Form(0.5),
-    save_annotated: bool = Form(False),
 ):
     if not file.filename.lower().endswith((".mp4", ".mov", ".m4v")):
         raise HTTPException(status_code=400, detail="Unsupported file extension. Please upload MP4/MOV/M4V.")
