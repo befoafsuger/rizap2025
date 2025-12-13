@@ -111,7 +111,7 @@ const DUMMY_ENEMIES: Enemy[] = [
   {
     id: '1',
     name: 'スライム',
-    hp: 50,
+    hp: 350,
     assetUrl: null,
     attackPattern: {},
     isActive: true,
@@ -119,7 +119,7 @@ const DUMMY_ENEMIES: Enemy[] = [
   {
     id: '2',
     name: 'ゴブリン',
-    hp: 45,
+    hp: 400,
     assetUrl: null,
     attackPattern: {},
     isActive: true,
@@ -127,7 +127,7 @@ const DUMMY_ENEMIES: Enemy[] = [
   {
     id: '3',
     name: 'オーク',
-    hp: 35,
+    hp: 450,
     assetUrl: null,
     attackPattern: {},
     isActive: true,

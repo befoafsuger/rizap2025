@@ -40,6 +40,14 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "react-native-vision-camera",
+        {
+          "cameraPermissionText": "$(PRODUCT_NAME)はカメラへのアクセスが必要です",
+          "enableMicrophonePermission": true,
+          "microphonePermissionText": "$(PRODUCT_NAME)はマイクへのアクセスが必要です"
+        }
       ]
     ],
     "experiments": {
