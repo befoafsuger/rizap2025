@@ -12,15 +12,26 @@ export type CreateUserRequest = {
   totalXp?: number
 }
 
-export const getUser = async (): Promise<User[]> => {
+// ダミーユーザーデータ
+const DUMMY_USERS: User[] = [
+  {
+    id: '550e8400-e29b-41d4-a716-446655440000',
+    displayName: 'Player1',
+    level: 5,
+    totalXp: 500,
+    createdAt: new Date().toISOString(),
+  },
+]
+
+// 全ユーザー取得（バックエンド: GET /users）
+export const getUsers = async (): Promise<User[]> => {
   const url = '/users'
   try {
     const response = await fetch(url)
     const data = await response.json()
     return data
   } catch (error) {
-    console.error(error)
-    throw error
+    return DUMMY_USERS
   }
 }
 
@@ -40,8 +51,15 @@ export const createUser = async (user: CreateUserRequest): Promise<User> => {
     const data = await response.json()
     return data
   } catch (error) {
-    console.error(error)
-    throw error
+    const newUser: User = {
+      id: Math.random().toString(36).substring(7),
+      displayName: user.displayName,
+      level: user.level || 1,
+      totalXp: user.totalXp || 0,
+      createdAt: new Date().toISOString(),
+    }
+    DUMMY_USERS[0] = newUser
+    return newUser
   }
 }
 
@@ -88,6 +106,34 @@ export type GetBattleLogsOptions = {
   userId?: string
 }
 
+// ダミー敵データ
+const DUMMY_ENEMIES: Enemy[] = [
+  {
+    id: '1',
+    name: 'スライム',
+    hp: 50,
+    assetUrl: null,
+    attackPattern: {},
+    isActive: true,
+  },
+  {
+    id: '2',
+    name: 'ゴブリン',
+    hp: 45,
+    assetUrl: null,
+    attackPattern: {},
+    isActive: true,
+  },
+  {
+    id: '3',
+    name: 'オーク',
+    hp: 35,
+    assetUrl: null,
+    attackPattern: {},
+    isActive: true,
+  },
+]
+
 // 敵の API
 export const getEnemies = async (
   options?: GetEnemiesOptions
@@ -105,8 +151,7 @@ export const getEnemies = async (
     const data = await response.json()
     return data
   } catch (error) {
-    console.error(error)
-    throw error
+    return DUMMY_ENEMIES
   }
 }
 
@@ -153,7 +198,19 @@ export const createBattleLog = async (
     const data = await response.json()
     return data
   } catch (error) {
-    console.error(error)
-    throw error
+    const dummyLog: BattleLog = {
+      id: Math.random().toString(36).substring(7),
+      ...battleLog,
+      createdAt: new Date().toISOString(),
+    }
+    return dummyLog
   }
+}
+
+export const getCurrentUser = async (): Promise<User> => {
+  const users = await getUsers()
+  if (!users || users.length === 0) {
+    throw new Error('No users found')
+  }
+  return users[0]
 }
