@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@hono/zod-validator':
         specifier: ^0.7.5
-        version: 0.7.5(hono@4.10.7)(zod@3.22.3)
+        version: 0.7.5(hono@4.10.7)(zod@4.1.13)
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
@@ -23,6 +23,9 @@ importers:
       postgres:
         specifier: ^3.4.7
         version: 3.4.7
+      zod:
+        specifier: ^4.1.13
+        version: 4.1.13
     devDependencies:
       '@biomejs/biome':
         specifier: 2.3.8
@@ -1541,6 +1544,9 @@ packages:
   zod@3.22.3:
     resolution: {integrity: sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug==}
 
+  zod@4.1.13:
+    resolution: {integrity: sha512-AvvthqfqrAhNH9dnfmrfKzX5upOdjUVJYFqNSlkmGf64gRaTzlPwz99IHYnVs28qYAybvAlBV+H7pn0saFY4Ig==}
+
 snapshots:
 
   '@biomejs/biome@2.3.8':
@@ -1892,10 +1898,10 @@ snapshots:
       '@eslint/core': 0.17.0
       levn: 0.4.1
 
-  '@hono/zod-validator@0.7.5(hono@4.10.7)(zod@3.22.3)':
+  '@hono/zod-validator@0.7.5(hono@4.10.7)(zod@4.1.13)':
     dependencies:
       hono: 4.10.7
-      zod: 3.22.3
+      zod: 4.1.13
 
   '@humanfs/core@0.19.1': {}
 
@@ -2725,3 +2731,5 @@ snapshots:
       youch-core: 0.3.3
 
   zod@3.22.3: {}
+
+  zod@4.1.13: {}

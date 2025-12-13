@@ -24,7 +24,7 @@
         "expo-system-ui": "~6.0.9",
         "expo-web-browser": "~15.0.10",
         "formik": "^2.4.9",
-        "hono": "^4.10.8",
+        "hono": "4.10.7",
         "react": "19.1.0",
         "react-dom": "19.1.0",
         "react-native": "0.81.5",
@@ -1008,7 +1008,7 @@
 
     "hoist-non-react-statics": ["hoist-non-react-statics@3.3.2", "", { "dependencies": { "react-is": "^16.7.0" } }, "sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw=="],
 
-    "hono": ["hono@4.10.8", "", {}, "sha512-DDT0A0r6wzhe8zCGoYOmMeuGu3dyTAE40HHjwUsWFTEy5WxK1x2WDSsBPlEXgPbRIFY6miDualuUDbasPogIww=="],
+    "hono": ["hono@4.10.7", "", {}, "sha512-icXIITfw/07Q88nLSkB9aiUrd8rYzSweK681Kjo/TSggaGbOX4RRyxxm71v+3PC8C/j+4rlxGeoTRxQDkaJkUw=="],
 
     "hosted-git-info": ["hosted-git-info@7.0.2", "", { "dependencies": { "lru-cache": "^10.0.1" } }, "sha512-puUZAUKT5m8Zzvs72XWy3HtvVbTWljRE66cP60bxJzAqf2DgICo7lYTY2IHUmLnNpjYvw5bvmoHvPc0QO2a62w=="],
 

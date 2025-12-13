@@ -1,29 +1,22 @@
 // src/index.ts
-import { Hono } from "hono";
-import { logger } from "hono/logger";
-import { cors } from "hono/cors";
-import { prettyJSON } from "hono/pretty-json";
+import { Hono } from "hono"
+import { logger } from "hono/logger"
+import { cors } from "hono/cors"
+import { prettyJSON } from "hono/pretty-json"
 
-// 分割したファイルをインポート
-import usersRoute from "./routes/users";
-import battleRoute from "./routes/battle-logs";
-import enemiesRoute from "./routes/enemies";
-const app = new Hono();
+import { usersRoutes } from "./routes/users"
+import { battleLogsRoutes } from "./routes/battle-logs"
+import { enemiesRoutes } from "./routes/enemies"
 
-// ミドルウェア
-app.use("*", logger());
-app.use("*", cors());
-app.use("*", prettyJSON());
+const app = new Hono()
+  .use("*", logger())
+  .use("*", cors())
+  .use("*", prettyJSON())
 
 const routes = app
-  .route("/routes/users", usersRoute)
-  .route("/routes/battle-logs", battleRoute)
-  .route("/routes/enemies", enemiesRoute);
+  .route("/api/users", usersRoutes)
+  .route("/api/battle/logs", battleLogsRoutes)
+  .route("/api/battle/enemies", enemiesRoutes)
 
-app.get("/", (c) => {
-  return c.text("Hello Hono!");
-});
-
-export default app;
-// chainしたルート変数の型をexportする
-export type AppType = typeof routes;
+export default app
+export type AppType = typeof routes

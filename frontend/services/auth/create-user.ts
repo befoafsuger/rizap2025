@@ -1,5 +1,6 @@
 import { createUserResponse } from '@/entities/users/users'
 import useSWRMutation from 'swr/mutation'
+import { client } from '@/hono/client.mts'
 
 interface CreateUserArgs {
   userId: string
@@ -15,27 +16,23 @@ interface UseCreateUser {
 
 export function useCreateUser(): UseCreateUser {
   async function createUser(
-    url: string,
+    _url: string,
     { arg }: { arg: CreateUserArgs }
   ): Promise<createUserResponse> {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${arg.accessToken}`,
+    const res = await client.api.users.$post(
+      {
+        json: {
+          displayName: arg.displayName,
+        },
       },
-      body: JSON.stringify({
-        id: arg.userId,
-        displayName: arg.displayName,
-      }),
-    })
+      {
+        headers: {
+          Authorization: `Bearer ${arg.accessToken}`,
+        },
+      }
+    )
 
-    if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.message || `HTTP error! status: ${response.status}`)
-    }
-
-    return response.json()
+    return res.json()
   }
 
   const { trigger, data, isMutating } = useSWRMutation('/users', createUser)
