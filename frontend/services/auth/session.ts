@@ -1,24 +1,43 @@
-import { Session } from '@supabase/supabase-js'
+import type { Session } from '@supabase/supabase-js'
 import { useEffect, useState } from 'react'
-import { supabase } from '../database/supabase'
+import { supabase } from '@/services/database/supabase'
 
 interface UseSession {
   session: Session | null
+  isLoading: boolean
 }
 
 export function useSession(): UseSession {
   const [session, setSession] = useState<Session | null>(null)
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
+  const [isLoading, setIsLoading] = useState(true)
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
+  useEffect(() => {
+    let isMounted = true
+
+    supabase.auth
+      .getSession()
+      .then(({ data }) => {
+        if (!isMounted) return
+        setSession(data.session ?? null)
+      })
+      .finally(() => {
+        if (!isMounted) return
+        setIsLoading(false)
+      })
+
+    const { data: subscription } = supabase.auth.onAuthStateChange(
+      (_event, nextSession) => {
+        setSession(nextSession)
+      }
+    )
+
+    return () => {
+      isMounted = false
+      subscription.subscription.unsubscribe()
+    }
   }, [])
 
-  return { session }
+  return { session, isLoading }
 }
 
 interface UseAccessToken {

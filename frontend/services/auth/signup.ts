@@ -1,6 +1,6 @@
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { supabase } from '../database/supabase'
+import { supabase } from '@/services/database/supabase'
 import { useState } from 'react'
 import { useCreateUser } from './create-user'
 import { FormikReturnType } from '@/entities/shared/formik'
@@ -11,12 +11,17 @@ interface FormValues {
   password: string
 }
 
+interface UseSignUpOptions {
+  onSuccess?: () => void
+}
+
 interface UseSignUp {
   formik: FormikReturnType<FormValues>
   loading: boolean
 }
 
-export function useSignUp(): UseSignUp {
+export function useSignUp(options?: UseSignUpOptions): UseSignUp {
+  const { onSuccess } = options || {}
   const [loading, setLoading] = useState(false)
   const { trigger: createUser, isMutating } = useCreateUser()
 
@@ -27,11 +32,12 @@ export function useSignUp(): UseSignUp {
       password: '',
     },
     validationSchema: Yup.object({
-      displayName: Yup.string().required('表示名は必須です'),
+      displayName: Yup.string().trim().required('表示名は必須です'),
       email: Yup.string()
+        .trim()
         .email('メールアドレスが無効です')
         .required('メールアドレスは必須です'),
-      password: Yup.string().required('パスワードは必須です'),
+      password: Yup.string().trim().required('パスワードは必須です'),
     }),
     onSubmit: async (values) => {
       setLoading(true)
@@ -41,8 +47,8 @@ export function useSignUp(): UseSignUp {
           error: authError,
           data: { user, session },
         } = await supabase.auth.signUp({
-          email: values.email,
-          password: values.password,
+          email: values.email.trim(),
+          password: values.password.trim(),
         })
 
         if (authError || !user) {
@@ -74,6 +80,9 @@ export function useSignUp(): UseSignUp {
           displayName: values.displayName,
           accessToken,
         })
+
+        // 4. 成功時のコールバックを実行
+        onSuccess?.()
       } catch (error) {
         console.error('ユーザー作成エラー:', error)
         formik.setFieldError('email', 'ユーザーの作成に失敗しました')
