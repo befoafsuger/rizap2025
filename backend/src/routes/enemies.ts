@@ -1,32 +1,34 @@
-import { Hono } from "hono";
-import { eq } from "drizzle-orm";
-import { zValidator } from "@hono/zod-validator";
-import { z } from "zod";
-import { enemies } from "../db/schema";
-import { getDb } from "../db/client";
-import type { CloudflareBindings } from "../types";
+import { Hono } from "hono"
+import { eq } from "drizzle-orm"
+import { zValidator } from "@hono/zod-validator"
+import { z } from "zod"
+import { enemies } from "../db/schema"
+import { getDb } from "../db/client"
+import type { CloudflareBindings } from "../types"
 
-const enemiesRoute = new Hono<{ Bindings: CloudflareBindings }>();
+const app = new Hono<{ Bindings: CloudflareBindings }>()
 
-enemiesRoute.get(
+const enemiesRoutes = app.get(
   "/",
   zValidator(
     "query",
-    z.object({
-      includeInactive: z.string().optional(),
-    }).passthrough(),
+    z
+      .object({
+        includeInactive: z.string().optional(),
+      })
+      .passthrough()
   ),
   async (c) => {
-    const db = getDb(c.env);
-    const { includeInactive } = c.req.valid("query");
-    const includeInactiveBool = includeInactive === "true";
+    const db = getDb(c.env)
+    const { includeInactive } = c.req.valid("query")
+    const includeInactiveBool = includeInactive === "true"
 
     const data = includeInactiveBool
       ? await db.select().from(enemies)
-      : await db.select().from(enemies).where(eq(enemies.isActive, true));
+      : await db.select().from(enemies).where(eq(enemies.isActive, true))
 
-    return c.json(data);
-  },
-);
+    return c.json(data)
+  }
+)
 
-export default enemiesRoute;
+export { enemiesRoutes }
