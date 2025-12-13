@@ -1,8 +1,9 @@
 import { StyleSheet, TouchableOpacity, View, Image, Text } from 'react-native'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { useState } from 'react'
+import { LoginScreen } from '@/components/login-screen'
 
-export default function HomeScreen() {
+function HomeScreen() {
   const [level] = useState(1)
 
   return (
@@ -49,6 +50,20 @@ export default function HomeScreen() {
       </View>
     </View>
   )
+}
+
+export default function IndexScreen() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  const handleLogin = () => {
+    setIsLoggedIn(true)
+  }
+
+  if (!isLoggedIn) {
+    return <LoginScreen onLogin={handleLogin} />
+  }
+
+  return <HomeScreen />
 }
 
 const styles = StyleSheet.create({
