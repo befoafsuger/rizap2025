@@ -32,7 +32,6 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{ headerShown: false }}></Stack>
       <StatusBar style="auto" />
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -41,7 +40,7 @@ export default function RootLayout() {
           options={{ presentation: 'modal', title: 'Modal' }}
         />
       </Stack>
-      <StatusBar style="light" hidden />
+      <StatusBar style="light" />
     </ThemeProvider>
   )
 }
