@@ -5,7 +5,6 @@ import { Enemy, getEnemies } from '@/utils/api'
 import { EnemyCard } from '@/components/battle/EnemyCard'
 import { ScreenHeader } from '@/components/common/ScreenHeader'
 import { BackButton } from '@/components/common/BackButton'
-import { Text, TextInput } from '@/components/themed'
 
 export default function BattleScreen() {
   const router = useRouter()
