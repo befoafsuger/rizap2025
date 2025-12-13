@@ -1,9 +1,10 @@
 import { Mode } from '@/entities/game/mode'
 
-const SCORE_API_URL = 'https://sponsored-media-compatibility-captured.trycloudflare.com/api/debug'
+const SCORE_API_URL =
+  'https://sponsored-media-compatibility-captured.trycloudflare.com/api/debug'
 
 // ダミーモード（開発用）
-const USE_MOCK = true  // false にすると本物のAPIを使う
+const USE_MOCK = true // false にすると本物のAPIを使う
 
 export interface ScoreResponse {
   frames_processed: number
@@ -18,8 +19,8 @@ export interface ScoreResponse {
 
 // ダミーデータ生成
 const generateMockScore = (mode: Mode): ScoreResponse => {
-  const baseScore = Math.random() * 100  // 0-100のランダムスコア
-  const variation = Math.random() * 20 - 10  // ±10の変動
+  const baseScore = Math.random() * 100 // 0-100のランダムスコア
+  const variation = Math.random() * 20 - 10 // ±10の変動
 
   return {
     frames_processed: 90,
@@ -35,7 +36,7 @@ const generateMockScore = (mode: Mode): ScoreResponse => {
 
 export const uploadVideoForScore = async (
   videoUri: string,
-  mode: Mode,
+  mode: Mode
 ): Promise<string> => {
   console.log('Video URI:', videoUri)
   console.log('Mode:', mode)
@@ -43,9 +44,10 @@ export const uploadVideoForScore = async (
 
   // ダミーモード
   if (USE_MOCK) {
-
     // 処理時間をシミュレート（1-2秒）
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000))
+    await new Promise((resolve) =>
+      setTimeout(resolve, 1000 + Math.random() * 1000)
+    )
 
     const mockData = generateMockScore(mode)
     console.log('Mock score generated:', mockData)
@@ -85,7 +87,6 @@ export const uploadVideoForScore = async (
     const responseText = await response.text()
     console.log('API Response:', responseText)
     return responseText
-
   } catch (error) {
     console.error('Upload failed:', error)
     throw error

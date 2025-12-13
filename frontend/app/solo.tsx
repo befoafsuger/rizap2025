@@ -1,8 +1,17 @@
 import { useState, useRef } from 'react'
-import { StyleSheet, View, TouchableOpacity, ActivityIndicator } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native'
 import { useRouter } from 'expo-router'
 import { Text } from '@/components/themed'
-import { Camera, useCameraDevice, useCameraPermission } from 'react-native-vision-camera'
+import {
+  Camera,
+  useCameraDevice,
+  useCameraPermission,
+} from 'react-native-vision-camera'
 import { Mode } from '@/entities/game/mode'
 import { uploadVideoForScore } from '@/utils/score'
 
@@ -80,7 +89,6 @@ export default function SoloScreen() {
           await camera.current.stopRecording()
         }
       }, 10000)
-
     } catch (error) {
       console.error('Failed to start recording:', error)
       setIsRecording(false)
@@ -138,7 +146,9 @@ export default function SoloScreen() {
               activeOpacity={0.7}
               disabled={isRecording || isProcessing}
             >
-              <Text style={[styles.modeText, mode === m && styles.modeTextActive]}>
+              <Text
+                style={[styles.modeText, mode === m && styles.modeTextActive]}
+              >
                 {m}
               </Text>
             </TouchableOpacity>
@@ -197,14 +207,18 @@ export default function SoloScreen() {
         <TouchableOpacity
           style={[
             styles.button,
-            (isRecording || isProcessing) && styles.buttonDisabled
+            (isRecording || isProcessing) && styles.buttonDisabled,
           ]}
           onPress={handleStartRecording}
           disabled={isRecording || isProcessing}
           activeOpacity={0.7}
         >
           <Text style={styles.buttonText}>
-            {isRecording ? '録画中...' : isProcessing ? '処理中...' : '録画開始 (10秒)'}
+            {isRecording
+              ? '録画中...'
+              : isProcessing
+                ? '処理中...'
+                : '録画開始 (10秒)'}
           </Text>
         </TouchableOpacity>
       </View>

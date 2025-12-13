@@ -1,9 +1,18 @@
 import { useEffect, useState, useRef } from 'react'
-import { StyleSheet, View, TouchableOpacity, ActivityIndicator } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native'
 import { useRouter, useLocalSearchParams } from 'expo-router'
 import { getCurrentUser, createBattleLog, getEnemies } from '@/utils/api'
 import { Text } from '@/components/themed'
-import { Camera, useCameraDevice, useCameraPermission } from 'react-native-vision-camera'
+import {
+  Camera,
+  useCameraDevice,
+  useCameraPermission,
+} from 'react-native-vision-camera'
 import { Mode } from '@/entities/game/mode'
 import { uploadVideoForScore } from '@/utils/score'
 
@@ -44,7 +53,7 @@ export default function BattleGameScreen() {
 
       // 敵データを取得
       const enemies = await getEnemies()
-      const enemy = enemies.find(e => e.id === enemyId)
+      const enemy = enemies.find((e) => e.id === enemyId)
       if (enemy) {
         setEnemyMaxHp(enemy.hp)
         setEnemyHp(enemy.hp)
@@ -131,7 +140,6 @@ export default function BattleGameScreen() {
           await camera.current.stopRecording()
         }
       }, 3000)
-
     } catch (error) {
       console.error('Attack failed:', error)
       setIsRecording(false)
@@ -180,7 +188,10 @@ export default function BattleGameScreen() {
     return (
       <View style={styles.container}>
         <Text style={styles.infoLabel}>カメラ権限が必要です</Text>
-        <TouchableOpacity style={styles.commandButton} onPress={requestPermission}>
+        <TouchableOpacity
+          style={styles.commandButton}
+          onPress={requestPermission}
+        >
           <Text style={styles.commandText}>権限を許可</Text>
         </TouchableOpacity>
       </View>
@@ -230,7 +241,11 @@ export default function BattleGameScreen() {
               onPress={() => setMode(m)}
               activeOpacity={0.7}
             >
-              <Text style={[styles.modeText, mode === m && styles.modeTextActive]}>{m}</Text>
+              <Text
+                style={[styles.modeText, mode === m && styles.modeTextActive]}
+              >
+                {m}
+              </Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -274,7 +289,7 @@ export default function BattleGameScreen() {
           <TouchableOpacity
             style={[
               styles.commandButton,
-              (isRecording || isProcessing) && styles.commandButtonDisabled
+              (isRecording || isProcessing) && styles.commandButtonDisabled,
             ]}
             onPress={playerAttack}
             disabled={isRecording || isProcessing}
