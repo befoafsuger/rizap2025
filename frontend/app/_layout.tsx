@@ -10,7 +10,7 @@ import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 import 'react-native-reanimated'
 
-import { useColorScheme } from '@/hooks/use-color-scheme'
+import { useColorScheme } from '@/services/shared/use-color-scheme'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -34,6 +34,14 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack screenOptions={{ headerShown: false }}></Stack>
       <StatusBar style="auto" />
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="modal"
+          options={{ presentation: 'modal', title: 'Modal' }}
+        />
+      </Stack>
+      <StatusBar style="light" hidden />
     </ThemeProvider>
   )
 }
