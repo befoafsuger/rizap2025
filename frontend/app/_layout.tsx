@@ -14,14 +14,10 @@ import { useColorScheme } from '@/hooks/use-color-scheme'
 
 SplashScreen.preventAutoHideAsync()
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-}
-
 export default function RootLayout() {
   const colorScheme = useColorScheme()
   const [fontsLoaded, fontError] = useFonts({
-    'DotGothic16-Regular': require('@/assets/fonts/DotGothic16-Regular.ttf'),
+    'DotGothic16-Regular': require('../assets/fonts/DotGothic16-Regular.ttf'),
   })
 
   useEffect(() => {
@@ -33,15 +29,10 @@ export default function RootLayout() {
   if (!fontsLoaded && !fontError) {
     return null
   }
+
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="modal"
-          options={{ presentation: 'modal', title: 'Modal' }}
-        />
-      </Stack>
+      <Stack screenOptions={{ headerShown: false }}></Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
   )
